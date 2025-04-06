@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<txg:Texgit xmlns:txg="http://gilmatryx.googlepages.com/Texgit"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://gilmatryx.googlepages.com/Texgit file:////home/gilmar/WORKSPACE/TexgitSchema.xsd"
+	version="1.0-academic">
+	
+	<FlatFile>
+		<layout>
+			<name>
+				Guia do Usuário para SIGCB 240
+			</name>
+			<version>10.3 / 27 fevereiro 2025</version>
+			<description>
+			
+				GERAL:
+					Layout de intercâmbio de dados para Guia SIGCB 240 
+					Padrão FEBRABAN da cobrança bancária da Caixa Econômica Federal.
+			
+				OBJETIVO:
+					
+					Viabilizar o tratamento do arquivo retorno
+					
+				DESCRIÇÃO:
+				
+					Os leiautes de arquivos retornos são de exclusividade para Entidades que utilizarão sistemas/aplicativos próprios, 
+					para prover adequação e viabilizar o tratamento do arquivo que será enviado pela CAIXA na data de crédito do repasse da arrecadação.
+
+					Tipo de arquivo eletrônico:
+						* Arquivo Retorno/Prestação de Contas - arquivo que é disponibilizado pela BANRISUL à
+						Entidade, contendo a relação das guias pagas, identificando: arrecadação direta ou indireta,
+						canal de recebimento, cheque ou dinheiro, valor pago, valor da contribuição, data do
+									
+				TAMANHO DOS REGISTROS:
+					240 Bytes
+					
+				DISPOSIÇÃO DO ARQUIVO RETORNO:
+				
+					HEADER DE ARQUIVO
+					HEADER DE LOTE - Serviço/Produto = Cobrança-Retorno
+					SEGMENTO P (OBRIGATÓRIO) - REMESSA
+					SEGMENTO Q (OBRIGATÓRIO) - REMESSA
+					TRAILER DE LOTE - Serviço/Produto = Cobrança-Retorno
+					TRAILLER DE ARQUIVO
+					
+			</description>
+		</layout>
+		
+		<GroupOfRecords>
+		
+		<!-- Início do arquivo -->
+			<Record name="HeaderArquivo" description="PROTOCOLO DE COMUNICAÇÃO DE ARQUIVO">
+				<GroupOfFields>
+					<!-- Identificador do registro 0 -->
+					<IdType name="TipoRegistro"  position="3" value="0" length="1" />
+					<Field name="CodigoBanco" value="041" length="3" type="INTEGER" padding="ZERO_LEFT"/>
+					<Field name="LoteServico" value="11" length="4" type="INTEGER" padding="ZERO_LEFT" />
+					<Field name="CNAB1" length="9" type="STRING" padding="WHITE_SPACE_RIGHT" value=" "/> 
+                                        <Field name="Empresa-TipoInscricao" type="INTEGER" length="1" padding="ZERO_LEFT"/>
+                                        <Field name="Empresa-numeroInscricao" length="14" padding="ZERO_LEFT" type="LONG"/>
+                                        <Field name="Empresa-CodigoConvenio" length="20" padding="ZERO_LEFT" type="LONG"/>
+                                        <Field name="Empresa-AgenciaNumero" type="INTEGER" padding="ZERO_LEFT" length="5"/>	
+				</GroupOfFields>
+			</Record>
+		</GroupOfRecords>
+	
+			
+		
+	</FlatFile>
+
+</txg:Texgit>
