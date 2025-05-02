@@ -22,7 +22,15 @@ public class Empresa{
     private String antigoCedente;
     private String dataGeracao;
     
-      
+    private String empresa = "Lisboa Assessoria Contábil";
+    private String endereço = "Av. Assis Brasil 6186 2º andar";
+    private String cep = "91100-000";
+    private String cidade = "Porto Alegre";
+    private String bairro = "Sarandi";
+    private String estado = "RS";
+    private String fone = "3014-9009";
+    private String CNPJ = "02.291.833/0001-84";
+   
     
     public Empresa(){
         
@@ -43,7 +51,13 @@ public class Empresa{
         this.dataGeracao = dataGeracao;
     }
     
-   
+    public String getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(String empresa) {
+        this.empresa = empresa;
+    }
 
     public int getTipoInscrição() {
         return tipoInscrição;
@@ -117,7 +131,61 @@ public class Empresa{
         this.antigoCedente = antigoCedente;
     }
 
-   
+    public String getEndereço() {
+        return endereço;
+    }
+
+    public void setEndereço(String endereço) {
+        this.endereço = endereço;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getFone() {
+        return fone;
+    }
+
+    public void setFone(String fone) {
+        this.fone = fone;
+    }
+
+    public String getCNPJ() {
+        return CNPJ;
+    }
+
+    public void setCNPJ(String CNPJ) {
+        this.CNPJ = CNPJ;
+    }
 
     public String getDataGeracao() {
         return dataGeracao;

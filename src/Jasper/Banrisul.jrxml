@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="boleto" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.948717100000005"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cedente" class="java.lang.String"/>
+	<parameter name="cnpjCedente" class="java.lang.String"/>
+	<parameter name="sacado" class="java.lang.String"/>
+	<parameter name="cpfSacado" class="java.lang.String"/>
+	<parameter name="enderecoSacado" class="java.lang.String"/>
+	<parameter name="cidade" class="java.lang.String"/>
+	<parameter name="cep" class="java.lang.String"/>
+	<parameter name="nossoNumero" class="java.lang.String"/>
+	<parameter name="valor" class="java.lang.String"/>
+	<parameter name="dataDocumento" class="java.lang.String"/>
+	<parameter name="dataVencimento" class="java.lang.String"/>
+	<parameter name="localPagamento" class="java.lang.String"/>
+	<parameter name="instrucoes" class="java.lang.String"/>
+	<parameter name="codigoBarras" class="java.lang.String"/>
+	<parameter name="imagemBarras" class="java.lang.String"/>
+	<parameter name="dataAnterior" class="java.lang.String"/>
+	<parameter name="complementar" class="java.lang.String"/>
+	<parameter name="observacao" class="java.lang.String"/>
+	<title>
+		<band height="802">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="400"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="13" y="100" width="379" height="98"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="463" y="499" width="92" height="22"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="393" y="499" width="70" height="22"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="499" width="393" height="22"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="10" y="531" width="393" height="22"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="587" width="393" height="109"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="305" y="543" width="88" height="22"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="393" y="521" width="162" height="22"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="393" y="543" width="162" height="22"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="393" y="565" width="162" height="22"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="393" y="587" width="162" height="22"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="393" y="608" width="162" height="22"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="393" y="630" width="162" height="22"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="393" y="652" width="162" height="22"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="393" y="674" width="162" height="22"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="521" width="393" height="22"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="403" y="144" width="136" height="54"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="54" y="299" width="186" height="20"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[OUVIDORIA BANRISUL - 0800 644 2200]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="42" y="244" width="149" height="20"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total até o Vencimento : R$]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="42" y="278" width="186" height="20"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[SAC BANRISUL - 0800 646 1515]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="19" y="122" width="97" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Pagador
+                     ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="439" y="14" width="100" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Recibo do Pagador]]></text>
+			</staticText>
+			<image>
+				<reportElement x="14" y="3" width="110" height="28"/>
+				<imageExpression class="java.lang.String"><![CDATA["C:\\Users\\Sergio\\Documents\\NetBeansProjects\\gerenciadorBanrisul\\src\\imagens\\041.png"]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement x="13" y="34" width="526" height="61"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="19" y="75" width="268" height="20"/>
+				<textElement>
+					<font size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[CEP: 00000-000 - Bairro - Cidade - UF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="415" y="47" width="75" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[00.000.000/0000-00]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="191" y="58" width="64" height="20"/>
+				<textElement>
+					<font size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[fone]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="19" y="56" width="170" height="20"/>
+				<textElement>
+					<font size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[endereço]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="19" y="38" width="214" height="20"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Empresa xxyyzz]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="415" y="59" width="75" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[0000/0000000.00]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="395" y="499" width="37" height="14"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Parcela]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="499" width="87" height="14"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Local de Pagamento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="465" y="499" width="55" height="14"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Vencimento]]></text>
+			</staticText>
+			<image>
+				<reportElement x="1" y="462" width="110" height="36"/>
+				<imageExpression class="java.lang.String"><![CDATA["C:\\Users\\Sergio\\Documents\\NetBeansProjects\\gerenciadorBanrisul\\src\\imagens\\041.png"]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="75" y="491" width="480" height="1"/>
+			</line>
+			<line>
+				<reportElement x="156" y="471" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement x="206" y="471" width="1" height="20"/>
+			</line>
+			<staticText>
+				<reportElement x="159" y="471" width="47" height="22"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[041-8]]></text>
+			</staticText>
+			<line>
+				<reportElement x="329" y="408" width="1" height="12"/>
+			</line>
+			<line>
+				<reportElement x="554" y="409" width="1" height="12"/>
+			</line>
+			<line>
+				<reportElement x="330" y="408" width="225" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="415" y="409" width="82" height="12"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Autenticação Mecânica]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="353" y="748" width="195" height="12"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[AUTENTICAÇÃO MECÂNICA/FICHA DE COMPENSAÇÃO ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="328" y="748" width="1" height="12"/>
+			</line>
+			<line>
+				<reportElement x="328" y="748" width="1" height="12"/>
+			</line>
+			<line>
+				<reportElement x="329" y="748" width="225" height="1"/>
+			</line>
+			<line>
+				<reportElement x="554" y="748" width="1" height="12"/>
+			</line>
+			<staticText>
+				<reportElement x="396" y="521" width="110" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Agência/código do beneficiário]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="396" y="565" width="110" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[( = ) Valor do Documento/Parcela]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="396" y="543" width="110" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Nosso Número/Código do Documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="396" y="586" width="110" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[( - ) Desconto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="396" y="607" width="110" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[( - ) Outras Deduções (abatimentos)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="396" y="629" width="110" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Agência/código do beneficiário]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="395" y="651" width="110" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Agência/código do beneficiário]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="521" width="39" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Beneficiário]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="696" width="555" height="49"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="543" width="75" height="22"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="2" y="543" width="60" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Data do Documento]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="75" y="543" width="84" height="22"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="158" y="543" width="77" height="22"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="235" y="543" width="70" height="22"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="306" y="543" width="63" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Data do Procesamento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="238" y="543" width="28" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Aceite]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="160" y="543" width="77" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Espécie do Documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="78" y="543" width="77" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Número do Documento]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="461" width="554" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="480" y="450" width="75" height="10"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Corte na linha abaixo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="394" y="673" width="110" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Agência/código do beneficiário]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="587" width="204" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Instruções (Texto de responsabilidade do Beneficiário)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="737" width="60" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Sacador/Avalista]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="687" width="60" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Empresa:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="403" y="737" width="60" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Código de baixa]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="565" width="142" height="22"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="142" y="565" width="48" height="22"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="190" y="565" width="51" height="22"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="241" y="565" width="62" height="22"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="303" y="565" width="90" height="22"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="3" y="565" width="60" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Uso do Banco]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="144" y="565" width="46" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Carteira]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="191" y="565" width="53" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Espécie da Moeda]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="243" y="565" width="63" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Quantidade da Moeda]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="306" y="565" width="63" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Valor da Moeda]]></text>
+			</staticText>
+			<line>
+				<reportElement x="393" y="499" width="1" height="22"/>
+			</line>
+			<textField>
+				<reportElement x="3" y="506" width="380" height="16"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{localPagamento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="3" y="528" width="381" height="16"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{cedente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="398" y="550" width="99" height="17"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{nossoNumero}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="415" y="71" width="100" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{nossoNumero}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="396" y="528" width="100" height="16"/>
+				<textElement textAlignment="Right">
+					<font size="9" isItalic="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{cnpjCedente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="125" y="121" width="258" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sacado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="125" y="136" width="244" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{enderecoSacado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="124" y="162" width="245" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{cidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="125" y="149" width="181" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{cep}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="19" y="148" width="97" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Cep]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="19" y="135" width="97" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Endereço]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="19" y="161" width="97" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Cidade]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="19" y="174" width="97" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Mês de Ref.                      ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="117" y="122" width="7" height="14"/>
+				<textElement/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="117" y="135" width="7" height="14"/>
+				<textElement/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="117" y="149" width="7" height="14"/>
+				<textElement/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="117" y="162" width="7" height="14"/>
+				<textElement/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="117" y="175" width="7" height="14"/>
+				<textElement/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="426" y="155" width="90" height="30"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{dataVencimento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="399" y="573" width="83" height="14"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{valor}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="467" y="506" width="88" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{dataVencimento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="4" y="697" width="224" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sacado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="229" y="697" width="118" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{cpfSacado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="4" y="710" width="283" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{enderecoSacado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="4" y="723" width="100" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{cep}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="103" y="723" width="145" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{cidade}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="403" y="101" width="136" height="34"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="420" y="111" width="100" height="14"/>
+				<textElement/>
+				<text><![CDATA[V E N C I M E N T O S]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="13" y="619" width="253" height="13"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{instrucoes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="215" y="382" width="374" height="20"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{instrucoes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="216" y="472" width="338" height="20"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{imagemBarras}]]></textFieldExpression>
+			</textField>
+			<elementGroup/>
+			<staticText>
+				<reportElement x="199" y="573" width="27" height="13"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[REAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="176" y="551" width="15" height="13"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[RC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="248" y="551" width="8" height="13"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[N]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="550" width="68" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{nossoNumero}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="310" y="551" width="63" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{dataDocumento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="4" y="551" width="61" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{dataDocumento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="124" y="176" width="100" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{dataAnterior}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="13" y="639" width="186" height="28"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[SAC Banrisul - 0800-646-1515
+Ouvidoria Banrisul - 0800-644-2200]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="19" y="106" width="97" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[CPF/CNPJ
+                     ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="117" y="107" width="7" height="14"/>
+				<textElement/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="125" y="107" width="100" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{cpfSacado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="199" y="244" width="100" height="20"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{valor}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="14" y="755" width="291" height="37"/>
+				<jr:Interleaved2Of5 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="none">
+					<jr:codeExpression><![CDATA[$P{codigoBarras}]]></jr:codeExpression>
+				</jr:Interleaved2Of5>
+			</componentElement>
+			<textField>
+				<reportElement x="42" y="213" width="478" height="11"/>
+				<textElement>
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{complementar}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>

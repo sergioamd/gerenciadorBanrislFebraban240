@@ -1,13 +1,19 @@
 
 package Controller;
 
+import static Controller.FormatadorUtil.formatarCpfCnpj;
 import Model.Cliente;
+import Model.CodigoBarrasUtil;
 import Model.Empresa;
+import Model.Mensagens;
+import exemplotexgit.TelaPrincipal;
 import java.awt.image.BufferedImage;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.*;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -18,180 +24,195 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
+import net.sf.jasperreports.engine.util.JRLoader;
 import org.krysalis.barcode4j.impl.code128.Code128Bean;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 
 public class BoletoIreport {
     
-     
-   
+    
      private final LocalDate DATA_BASE = LocalDate.of(1997, 10, 7);
      private  final int FATOR_MAXIMO = 9999;
      private  final int FATOR_INICIAL = 1000;
      String dataFormatada = "";
      int fatorVencimento = 0;
-     String codigoBarras, linhaDigitavel;
+     //String codigoBarras, linhaDigitavel;
      String caminhoArquivo;
+     String dadosComplementares, observacao;
+     BigDecimal valor;
+     // Variáveis da barra de progresso
+     private JProgressBar progressBar;
+     private JFrame frame;
      
-    
-    /*Classe para criar o codigo de barra
-     *28/03/2025
-     */
-     public String codigoBarras(Cliente cliente){
-         
-         /*Modelo 04192.10026 80132.580129 24049.140791 6 99570000067950*/
-        
-        String banco = "041"; //3 numeros
-        String moeda = "9"; //1 numero
-        String valorNominal = cliente.getValor().substring(2,12); // 10 numeros
-        String constante2 = "2"; //1numero
-        String constante1 = "1";//1nuemro
-        String codigoAgencia = "0028";//4numeros
-        String codigoBeneficiario = "1234567"; //8nuemros
-        String nossoNumeroBase = cliente.getCodCliente().substring(0,8);//0325000368 //10nuemros
-        String constante40 = "40";//1numero
-        String fatorVencimento = "0000"; // Para documentos específicos pode ser 0000
-        
-        //Cálculo do primeiro DV (Módulo 10)
-        int dv1 = calcularModulo10(nossoNumeroBase);
-        String nossoNumeroComDV1 = nossoNumeroBase + dv1;
-        
-        // Cálculo do segundo DV (Módulo 11)
-        int dv2 = calcularModulo11(nossoNumeroComDV1);
-        String nossoNumero = nossoNumeroComDV1 + dv2;
-        
-         // Montagem do campo livre antes do cálculo do número de controle
-        String campoLivre = constante2 + constante1 + codigoAgencia + codigoBeneficiario + nossoNumero + constante40;
-        
-        // Cálculo do número de controle (Módulo 10 e 11)
-        int numeroControle = calcularModulo10(campoLivre) * 10 + calcularModulo11(campoLivre);
-        
-        // Montagem do código base antes do DAC
-        String codigoBarrasSemDAC = banco + moeda + fatorVencimento + valorNominal + campoLivre + numeroControle;
-        
-        // Cálculo do DAC (Dígito de Autoconferência)
-        int dac = calcularDAC(codigoBarrasSemDAC);
-        
-        // Montagem do código de barras completo
-        String codigoBarras = banco + moeda + dac + fatorVencimento + valorNominal + campoLivre + numeroControle;
-        //654321
-        // Formatação da linha digitável
-        
-              linhaDigitavel = String.format(                                           //65432.1
-            "%s%s%s.%s%s%d %s%s%s%d %s%s%d %d %s%s",
-            banco, moeda, constante2, constante1, codigoAgencia.substring(0, 3), calcularModulo10(banco + moeda + constante2 + constante1 + codigoAgencia),
-             codigoAgencia.substring(3, 4),codigoBeneficiario.substring(0, 4) + "." + codigoBeneficiario.substring(4), nossoNumero.substring(0, 2),
-             calcularModulo10(codigoAgencia + codigoBeneficiario + nossoNumero.substring(0, 4)), nossoNumeroBase.substring(2, 7) +"." + 
-             nossoNumeroBase.substring(7) + "40", numeroControle, calcularModulo10(nossoNumero.substring(5) + "40" + numeroControle), dac, fatorVencimento, valorNominal
-        );                               //
-        // 04192.16660 67654.321870 65432.12740.696  3 00000000001234
-        
-        System.out.println("Linha Digitável: " + linhaDigitavel);
-        
-
-
-         
-         return codigoBarras;
-         
-   
-     } 
-
+     TelaPrincipal mensagem = new TelaPrincipal();
      
-     public void boleto(Cliente cliente) {  
-         List<Cliente> lista = new ArrayList<>();
-         lista.add(cliente);
-          Empresa empresa = new Empresa();
-        try {
+     
+     public String dadosComplementar(){
+          
+         if("0001 - Honorários".equals(mensagem.DadosComplementares())){
+             
+           dadosComplementares = "HONORÁRIOS Referente: "; 
+           
+         }
+
+         return dadosComplementares;
+     }
+     
+ 
+     
+
+     public void gerarBoletos(List<Cliente> clientes) {
+         System.out.println(observacao);
+          // Criar janela de progresso
+        criarBarraDeProgresso(clientes.size());
+        
+        int progresso = 0;
+        
+        for (Cliente cliente : clientes) {
+            boleto(cliente);
             
+            // Atualizar a barra
+            progresso++;
+            atualizarProgresso(progresso);
+        }
+        
+         // Fechar a barra
+        fecharBarraDeProgresso();
+    }
+     
+     
+     public void boleto(Cliente cliente) {
+      
+          
+         try {
+
             
-             caminhoArquivo = "codigo_barras.jpg";
-            gerarCodigoBarras(codigoBarras(cliente), caminhoArquivo);
+            // Gera código de barras e linha digitável
+            String codigoBarras = CodigoBarrasUtil.gerarCodigoDeBarras(cliente);
+            String linhaDigitavel = CodigoBarrasUtil.gerarLinhaDigitavel(codigoBarras);
+            
+              //System.out.println(codigoBarras);
+              //System.out.println(linhaDigitavel);
+           
+            caminhoArquivo = "codigo_barras.jpg";
+            gerarCodigoBarras(codigoBarras, caminhoArquivo);
             String teste = caminhoArquivo;
             
             // Dados do cedente
-            String cedente = "Empresa XYZ.";
-            String cnpjCedente = "0028/1234567.89";
+            String cedente = "Empresa xxyyzz.";
+            String cnpjCedente = "0000/0000000.00";
          
-            // Dados do sacado
-            /*String sacado = cliente.getCliente();
-            String cpfSacado = cliente.getCnpj();
-            String enderecoSacado = cliente.getEndereço();
-            String cidade = cliente.getCidade();
-            String cep = cliente.getCep() + cliente.getPrefixo();
-            */
              
             // Dados do boleto
             //String nossoNumero = cliente.getCodCliente();
             BigDecimal valor = new BigDecimal(cliente.getValor());
             String dataVencimento = dataFormatada(cliente.getDataVencimento()); //data formatada
             String dataDocumento = cliente.getDataGeracao();
+            dataDocumento = dataDocumento.trim(); //tirar os espaços em branco 
+            
+            //subtração de numero bigdecimal
+            BigDecimal resultado = valor.subtract(new BigDecimal("600"));
+            
+            //converter de big deimal para numeros com virgula
+            BigDecimal valorFinal = resultado.divide(new BigDecimal("100"));
+            DecimalFormat df = new DecimalFormat("#,##0.00");
+            String formatado = df.format(valorFinal);
+            
+                        
+            String mesAnterior = DataUtils.getMesAnterior(dataVencimento);
             //Date dataDocumento = new Date();
            // Calendar calendar = Calendar.getInstance();
            // calendar.add(Calendar.DAY_OF_MONTH, 5); // Vencimento em 5 dias
            // Date dataVencimento = calendar.getTime();
-            String localPagamento = "Qualquer Agência Bancária até o Vencimento";
+            String localPagamento = "Pagável preferencialmente na rede integrada Banrisul";
             String instrucoes = "Após vencimento multa de 2% + juros de 2% ao mês";
-            
-             
-             String templatePath = "C:\\Users\\Sergio\\Documents\\NetBeansProjects\\gerenciadorBanrislFebraban240\\Jasper\\Banrisul.jrxml";
-             
-            // Compilar o relatório
-            JasperReport jasperReport = JasperCompileManager.compileReport(templatePath);
-            
-            
-            for(Cliente item : lista){
-             //modificados   
-             String nossoNUmeroModificado = cliente.getCodCliente().substring(0, 8) +"-" + cliente.getCodCliente().substring(8, 10) ;   
+       
+
+            //modificados   
+             //String //nossoNUmeroModificado = cliente.getCodCliente().substring(0, 8) +"-" + cliente.getCodCliente().substring(8, 10) ;   
              String cep = cliente.getCep() +"-"+ cliente.getPrefixo();
              String valorModificado = cliente.getValor().substring(0, 10).replaceFirst("^0+", "") + "," + cliente.getValor().substring(10,12);
              
-             
+             //mensagem complementar
+             String mensagem = dadosComplementar() + "       " + mesAnterior + "        " + formatado 
+                     + "              0060 - OUTRAS TAXA      SP/SP     6,00 "; 
+            
+             String observa = observacao;
+                         
+             String cnpj = cliente.getCnpj();
+             String cnpjFormatado = formatarCpfCnpj(cnpj);
              
             // Dados para o relatório
             Map<String, Object> parameters = new HashMap<>();
             parameters.put("cedente", cedente);
             parameters.put("cnpjCedente", cnpjCedente);
-            parameters.put("sacado", item.getCliente());
-            parameters.put("cpfSacado", item.getCnpj());
-            parameters.put("enderecoSacado", item.getEndereço());
-            parameters.put("cidade", item.getCidade());
+            parameters.put("sacado", cliente.getCliente());
+            parameters.put("cpfSacado", cnpjFormatado);
+            parameters.put("enderecoSacado", cliente.getEndereço());
+            parameters.put("cidade", cliente.getCidade());
             parameters.put("cep", cep);
-            parameters.put("nossoNumero", nossoNUmeroModificado);
+            parameters.put("nossoNumero", cliente.getCodCliente());
             parameters.put("valor", valorModificado);
-            parameters.put("dataDocumento", dataDocumento);
+            parameters.put("dataDocumento", dataFormatada(dataDocumento));
             parameters.put("dataVencimento", dataVencimento);
             parameters.put("localPagamento", localPagamento);
             parameters.put("instrucoes", instrucoes);
-            parameters.put("codigoBarras", codigoBarras(cliente));
+            parameters.put("codigoBarras", codigoBarras);
             parameters.put("imagemBarras", linhaDigitavel);
+            parameters.put("dataAnterior", mesAnterior);
+            parameters.put("complementar", mensagem);
+            parameters.put("observacao", observa);
             
             
-            
+                        
             // Lista de boletos (para JRBeanCollectionDataSource)
            // List<Map<String, Object>> boletos = new ArrayList<>();
            // boletos.add(parameters);
-          
-            // Caminho do template do boleto
+           
+            
+           
+             InputStream input = getClass().getResourceAsStream("/Jasper/Banrisul.jasper");
+             if (input == null) {
+                throw new RuntimeException("Arquivo .jasper não encontrado no JAR!");
+               }
+             JasperReport jasperReport = (JasperReport) JRLoader.loadObject(input);
+                
              JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
-             
-             
-             String outputPath = "C:..\\gerenciadorBanrislFebraban240\\PDF\\" + item.getCodCliente() + ".pdf";
-             
-             JasperExportManager.exportReportToPdfFile(jasperPrint, outputPath);
 
-          
-            }
-             
+              // Caminho da pasta onde está o JAR
+                String jarDir = new File(".").getCanonicalPath();
+                File pastaPDF = new File(jarDir, "PDF"); 
+
+                //verificação se existe a pasta
+                if (!pastaPDF.exists()) {
+                    pastaPDF.mkdirs();
+                }
+                //grava o arquivo
+                File arquivo = new File(pastaPDF, cliente.getCodCliente() + ".pdf");
+                //exporta o arquivo
+                JasperExportManager.exportReportToPdfFile(jasperPrint, arquivo.getAbsolutePath());
+                
+               
+                    
+  
+            
+             //JOptionPane.showMessageDialog(null, "Boleto gerado com sucesso!");
         } catch (JRException e) {
             e.printStackTrace();
         } catch (Exception ex) {
              Logger.getLogger(BoletoIreport.class.getName()).log(Level.SEVERE, null, ex);
          }
-       System.out.println("Boleto gerado com sucesso!");  
+         
+          System.out.println("Boleto gerado com sucesso!"); 
+          
     }
-     
      
     
      /*Classe para formatar a data
@@ -219,94 +240,8 @@ public class BoletoIreport {
          return dataFormatada;
      }
      
-     public static int calcularModulo10(String numero) {
-        int soma = 0;
-        int peso = 2;
-        for (int i = numero.length() - 1; i >= 0; i--) {
-            int num = Character.getNumericValue(numero.charAt(i)) * peso;
-            soma += (num > 9) ? num - 9 : num;
-            peso = (peso == 2) ? 1 : 2;
-        }
-        int resto = soma % 10;
-        return (resto == 0) ? 0 : 10 - resto;
-    }
-     
-     public static int calcularModulo11(String numero) {
-        int soma = 0;
-        int peso = 2;
-        for (int i = numero.length() - 1; i >= 0; i--) {
-            soma += Character.getNumericValue(numero.charAt(i)) * peso;
-            peso = (peso == 9) ? 2 : peso + 1;
-        }
-        int resto = soma % 11;
-        return (resto == 0 || resto == 1) ? 1 : (resto == 10 ? 1 : 11 - resto);
-    }
-    
-    public static int calcularDAC(String numero) {
-        int soma = 0;
-        int peso = 2;
-        for (int i = numero.length() - 1; i >= 0; i--) {
-            soma += Character.getNumericValue(numero.charAt(i)) * peso;
-            peso = (peso == 9) ? 2 : peso + 1;
-        }
-        int resto = soma % 11;
-        return (resto == 0 || resto == 1) ? 1 : 11 - resto;
-    }
    
-     
-    /*Classe para criar o fator de vencimento
-     *28/03/2025
-     */
-    /*public  int calcularFatorVencimento(LocalDate data) {
-        
-        // Calcular a diferença de dias entre a data base e a data de vencimento
-        long dias = ChronoUnit.DAYS.between(DATA_BASE, data);
-
-        // Ajustar o fator de vencimento considerando o ciclo de 1000 a 9999
-              fatorVencimento = FATOR_INICIAL + (int) dias % (FATOR_MAXIMO - FATOR_INICIAL + 1);
-
-        return fatorVencimento;
-        
-        
-    }*/
-
-   /* private static String calcularDAC(String codigoBarras) {
-        int soma = 0;
-        int peso = 2;
-        for (int i = codigoBarras.length() - 1; i >= 0; i--) {
-            int valor = Character.getNumericValue(codigoBarras.charAt(i));
-            soma += valor * peso;
-            peso = (peso == 9) ? 2 : peso + 1;
-        }
-        int resto = soma % 11;
-        int dac = (resto == 0 || resto == 1) ? 0 : 11 - resto;
-        return String.valueOf(dac);
-    }
     
-    private static String calcularDuploDigito(String campoLivre) {
-        int soma = 0;
-        int peso = 2;
-        for (int i = campoLivre.length() - 1; i >= 0; i--) {
-            int valor = Character.getNumericValue(campoLivre.charAt(i));
-            soma += valor * peso;
-            peso = (peso == 9) ? 2 : peso + 1;
-        }
-        int resto = soma % 11;
-        int digito1 = (resto == 0 || resto == 1) ? 0 : 11 - resto;
-
-        soma = 0;
-        peso = 2;
-        String campoLivreComDigito1 = campoLivre + digito1;
-        for (int i = campoLivreComDigito1.length() - 1; i >= 0; i--) {
-            int valor = Character.getNumericValue(campoLivreComDigito1.charAt(i));
-            soma += valor * peso;
-            peso = (peso == 9) ? 2 : peso + 1;
-        }
-        resto = soma % 11;
-        int digito2 = (resto == 0 || resto == 1) ? 0 : 11 - resto;
-
-        return String.valueOf(digito1) + String.valueOf(digito2);
-    }*/
     
      
     public static void gerarCodigoBarras(String dados, String caminhoArquivo) throws Exception {
@@ -326,6 +261,45 @@ public class BoletoIreport {
         fos.close();
     }
     
+    
+       public static String formatarCNPJ(String cnpj) {
+        // Remove qualquer caractere que não seja número
+        cnpj = cnpj.replaceAll("\\D", "");
+
+        // Verifica se tem 14 dígitos
+        if (cnpj.length() != 14) {
+            throw new IllegalArgumentException("CNPJ deve conter 14 dígitos.");
+        }
+
+        return String.format("%s.%s.%s/%s-%s",
+                cnpj.substring(0, 2),
+                cnpj.substring(2, 5),
+                cnpj.substring(5, 8),
+                cnpj.substring(8, 12),
+                cnpj.substring(12, 14));
+    }
+      
+       // Métodos da barra de progresso
+    private void criarBarraDeProgresso(int maximo) {
+        frame = new JFrame("Gerando Boletos...");
+        progressBar = new JProgressBar(0, maximo);
+        progressBar.setValue(0);
+        progressBar.setStringPainted(true);
+        frame.add(progressBar);
+        frame.setSize(400, 100);
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.setVisible(true);
+    }
+
+    private void atualizarProgresso(int valor) {
+        progressBar.setValue(valor);
+    }
+
+    private void fecharBarraDeProgresso() {
+        frame.dispose();
+       // JOptionPane.showMessageDialog(null, "Boletos gerados com sucesso!");
+    }
       
      
 }
